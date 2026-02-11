@@ -1,0 +1,96 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow" data-show="employe">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Gestion des Menus</h3>
+                </div>
+                <div class="card-body">
+                    <form id="menuForm">
+                        <input type="hidden" id="menuId">
+                        
+                        <div class="mb-3">
+                            <label for="menuTitle" class="form-label">Titre du menu *</label>
+                            <input type="text" class="form-control" id="menuTitle" required>
+                            <small class="text-muted">Exemple: Menu du Chef, Menu Découverte, etc.</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="menuDescription" class="form-label">Description *</label>
+                            <textarea class="form-control" id="menuDescription" rows="5" required></textarea>
+                            <small class="text-muted">Décrivez les choix possibles dans ce menu (entrées, plats, desserts...)</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="menuPrice" class="form-label">Prix (en centimes) *</label>
+                            <input type="number" class="form-control" id="menuPrice" min="0" required>
+                            <small class="text-muted">Exemple: 3500 pour 35,00€</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="menuPicture" class="form-label">Photo (optionnel)</label>
+                            <select class="form-select" id="menuPicture">
+                                <option value="">Aucune photo</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success" id="submitBtn">
+                                <i class="bi bi-check-circle"></i> Ajouter
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;">
+                                <i class="bi bi-x-circle"></i> Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow mt-4">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">Liste des Menus</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titre</th>
+                                    <th>Description</th>
+                                    <th>Prix</th>
+                                    <th>Créé le</th>
+                                    <th>Modifié le</th>
+                                    <th data-show="employe,admin">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menusTableBody">
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes-vous sûr de vouloir supprimer ce menu ? Cette action est irréversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+            </div>
+        </div>
+    </div>
+</div>
