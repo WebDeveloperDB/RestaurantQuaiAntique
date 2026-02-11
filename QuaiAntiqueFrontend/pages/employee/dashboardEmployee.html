@@ -1,0 +1,61 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Gestion des Utilisateurs</h1>
+        <p class="lead">Espace Administrateur</p>
+    </div>
+</div>
+
+<div class="container">
+    <form id="createUserForm">
+        <h2>Créer des utilisateurs</h2>
+        <div class="mb-3">
+            <label for="email" class="form-label">Adresse e-mail</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Rôle</label>
+            <select id="role" class="form-control" name="role" required>
+                <option value="ROLE_USER">Utilisateur</option>
+                <option value="ROLE_EMPLOYE">Employé</option>
+                <option value="ROLE_ADMIN">Administrateur</option>
+            </select>
+        </div>
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="createUser()">Créer un utilisateur</button>
+        </div>
+    </form>
+
+    <h2 class="mt-5">Liste des utilisateurs</h2>
+    <div id="userList" class="form-control mb-4"></div>
+
+    <h2>Modifier ou Supprimer un utilisateur</h2>
+    <form id="updateUserForm">
+        <div class="form-group">
+            <label for="update-email">Email</label>
+            <input type="email" id="update-email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="update-password">Nouveau mot de passe</label>
+            <input type="password" id="update-password" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="update-role">Rôle</label>
+            <select id="update-role" class="form-control">
+                <option value="ROLE_USER">Utilisateur</option>
+                <option value="ROLE_EMPLOYE">Employé</option>
+                <option value="ROLE_ADMIN">Administrateur</option>
+            </select>
+        </div>
+        <div class="text-center pt-3">
+            <button type="button" class="btn btn-warning" onclick="updateUser()">Modifier utilisateur</button>
+            <button type="button" class="btn btn-danger" onclick="deleteUser()">Supprimer utilisateur</button>
+        </div>
+    </form>
+
+
+      
+</div>
