@@ -1,0 +1,16 @@
+parameters:
+    C3: 'default_value' # Valeur par défaut pour éviter l'erreur
+    images_directory: '%kernel.project_dir%/public/uploads/images'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    # Enregistrement automatique des commandes
+
+    # Enregistrement automatique des services
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Tests,Kernel.php}'
