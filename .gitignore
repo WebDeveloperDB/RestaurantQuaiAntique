@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+
+# Build files
+/QuaiAntiqueFrontend/dist/
+/QuaiAntiqueBackend/restaurant_backend/var/
+/QuaiAntiqueBackend/restaurant_backend/public/uploads/
+
+# Cache and logs
+*.log
+/QuaiAntiqueBackend/restaurant_backend/var/cache/
+/QuaiAntiqueBackend/restaurant_backend/var/log/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
