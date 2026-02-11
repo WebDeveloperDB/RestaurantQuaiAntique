@@ -1,0 +1,78 @@
+<div class="hero-scene text-center text-white">
+    <div class="hero-scene-content">
+        <h1>Ma réservation</h1>
+    </div>
+</div>
+
+<div class="container">
+    <form id="reservationForm" class="col-md-6 offset-md-3">
+
+        <!-- Name & Vorname (disabled, werden aus User-Daten gefüllt) -->
+        <div class="mb-3">
+            <label for="NomInput" class="form-label">Nom</label>
+            <input disabled type="text" id="NomInput" class="form-control" placeholder="Votre nom">
+        </div>
+
+        <div class="mb-3">
+            <label for="PrenomInput" class="form-label">Prénom</label>
+            <input disabled type="text" id="PrenomInput" class="form-control" placeholder="Votre prénom">
+        </div>
+
+        <!-- Allergien (optional, wird vorausgefüllt falls im Account gespeichert) -->
+        <div class="mb-3">
+            <label for="AllergieInput" class="form-label">Allergies (facultatif)</label>
+            <input type="text" id="AllergieInput" name="allergy"
+                   class="form-control" placeholder="Arachides, fruits de mer…">
+        </div>
+
+        <!-- Anzahl der Personen -->
+        <div class="mb-3">
+            <label for="NbConvivesInput" class="form-label">Nombre de convives</label>
+            <input type="number" id="NbConvivesInput" name="guestNumber"
+                   class="form-control" min="1" max="20" required>
+        </div>
+
+        <!-- Datum -->
+        <div class="mb-3">
+            <label for="DateInput" class="form-label">Date</label>
+            <input type="date" id="DateInput" name="date"
+                   class="form-control" required>
+        </div>
+
+        <!-- Service (Midi / Soir) -->
+        <div class="mb-3">
+            <label class="form-label d-block">Service</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="midiRadio"
+                       name="serviceChoisi" value="midi" checked>
+                <label class="form-check-label" for="midiRadio">Midi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="soirRadio"
+                       name="serviceChoisi" value="soir">
+                <label class="form-check-label" for="soirRadio">Soir</label>
+            </div>
+        </div>
+
+        <!-- Uhrzeit (wird per JS mit 15-Minuten-Slots gefüllt) -->
+        <div class="mb-3">
+            <label for="selectHour" class="form-label">Heure</label>
+            <select id="selectHour" name="heure" class="form-select" required>
+                <option value="">-- Choisir un horaire --</option>
+            </select>
+        </div>
+
+        <!-- Live-Verfügbarkeitsmeldung -->
+        <div id="availabilityMsg" class="mb-3 text-center"></div>
+
+        <!-- Buttons -->
+        <div class="text-center">
+            <button type="button" id="btnReserve" class="btn btn-primary w-100">
+                Réserver
+            </button>
+            <button type="button" id="btnCancel" class="btn btn-secondary w-100 mt-2">
+                Annuler
+            </button>
+        </div>
+    </form>
+</div>
