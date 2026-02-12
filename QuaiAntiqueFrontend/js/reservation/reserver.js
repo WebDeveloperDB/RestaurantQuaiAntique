@@ -28,10 +28,10 @@ async function loadUserData() {
         const allergieInput = document.getElementById("AllergieInput");
         const guestInput = document.getElementById("NbConvivesInput");
 
-        if (nomInput && currentUser.lastName) nomInput.value = currentUser.lastName;
-        if (prenomInput && currentUser.firstName) prenomInput.value = currentUser.firstName;
-        if (allergieInput && currentUser.allergy) allergieInput.value = currentUser.allergy;
-        if (guestInput && currentUser.guestNumber) guestInput.value = currentUser.guestNumber;
+        if (nomInput && currentUser.lastName) nomInput.value = window.escapeHtml(currentUser.lastName);
+        if (prenomInput && currentUser.firstName) prenomInput.value = window.escapeHtml(currentUser.firstName);
+        if (allergieInput && currentUser.allergy) allergieInput.value = window.escapeHtml(currentUser.allergy);
+        if (guestInput && currentUser.guestNumber) guestInput.value = window.escapeHtml(currentUser.guestNumber);
 
     } catch (error) {
         console.error('Erreur:', error);
@@ -131,8 +131,8 @@ function updateTimeSlots() {
 
     slots.forEach(slot => {
         const option = document.createElement("option");
-        option.value = slot;
-        option.textContent = slot;
+        option.value = window.escapeHtml(slot);
+        option.textContent = window.escapeHtml(slot);
         timeSelect.appendChild(option);
     });
 }
@@ -250,7 +250,7 @@ function showMessage(text, type) {
     const alertClass = type === "success" ? "alert-success" : 
                        type === "warning" ? "alert-warning" : "alert-danger";
 
-    msgDiv.innerHTML = `<div class="alert ${alertClass}">${text}</div>`;
+    msgDiv.innerHTML = `<div class="alert ${alertClass}">${window.escapeHtml(text)}</div>`;
 
     setTimeout(() => {
         msgDiv.innerHTML = "";
@@ -287,12 +287,12 @@ async function loadAllReservations() {
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Réservation #${resa.id}</h5>
-                            <p class="mb-1"><strong>Date:</strong> ${dateStr}</p>
-                            <p class="mb-1"><strong>Heure:</strong> ${timeStr}</p>
-                            <p class="mb-1"><strong>Convives:</strong> ${resa.guestNumber}</p>
-                            ${resa.allergy ? `<p class="mb-1"><strong>Allergies:</strong> ${resa.allergy}</p>` : ''}
-                            <button class="btn btn-danger btn-sm mt-2" onclick="deleteReservation(${resa.id})">
+                            <h5 class="card-title">Réservation #${window.escapeHtml(resa.id)}</h5>
+                            <p class="mb-1"><strong>Date:</strong> ${window.escapeHtml(dateStr)}</p>
+                            <p class="mb-1"><strong>Heure:</strong> ${window.escapeHtml(timeStr)}</p>
+                            <p class="mb-1"><strong>Convives:</strong> ${window.escapeHtml(resa.guestNumber)}</p>
+                            ${resa.allergy ? `<p class="mb-1"><strong>Allergies:</strong> ${window.escapeHtml(resa.allergy)}</p>` : ''}
+                            <button class="btn btn-danger btn-sm mt-2" onclick="deleteReservation(${window.escapeHtml(resa.id)})">
                                 Annuler
                             </button>
                         </div>

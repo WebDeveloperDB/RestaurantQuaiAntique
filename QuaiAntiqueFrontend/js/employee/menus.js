@@ -36,8 +36,8 @@ function displayPictureSelect() {
 
     allPictures.forEach(picture => {
         const option = document.createElement('option');
-        option.value = picture.id;
-        option.textContent = picture.title;
+        option.value = window.escapeHtml(picture.id);
+        option.textContent = window.escapeHtml(picture.title);
         select.appendChild(option);
     });
 }
@@ -80,17 +80,17 @@ function displayMenus(menus) {
         const priceInEuros = (menu.price / 100).toFixed(2);
         
         tr.innerHTML = `
-            <td>${menu.id}</td>
-            <td>${window.sanitizeHtml(menu.title)}</td>
-            <td>${window.sanitizeHtml(menu.description)}</td>
-            <td>${priceInEuros}€</td>
-            <td>${menu.createdAt || '-'}</td>
-            <td>${menu.updatedAt || '-'}</td>
+            <td>${window.escapeHtml(menu.id)}</td>
+            <td>${window.escapeHtml(menu.title)}</td>
+            <td>${window.escapeHtml(menu.description)}</td>
+            <td>${window.escapeHtml(priceInEuros)}€</td>
+            <td>${window.escapeHtml(menu.createdAt || '-')}</td>
+            <td>${window.escapeHtml(menu.updatedAt || '-')}</td>
             <td data-show="employe,admin">
-                <button class="btn btn-sm btn-warning me-1" onclick="editMenu(${menu.id})">
+                <button class="btn btn-sm btn-warning me-1" onclick="editMenu(${window.escapeHtml(menu.id)})">
                     <i class="bi bi-pencil"></i> Modifier
                 </button>
-                <button class="btn btn-sm btn-danger" onclick="deleteMenu(${menu.id})">
+                <button class="btn btn-sm btn-danger" onclick="deleteMenu(${window.escapeHtml(menu.id)})">
                     <i class="bi bi-trash"></i> Supprimer
                 </button>
             </td>

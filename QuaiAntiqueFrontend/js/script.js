@@ -99,9 +99,31 @@ window.setCookie = setCookie;
 window.eraseCookie = eraseCookie;
 window.showAndHideElementsForRoles = showAndHideElementsForRoles;
 window.sanitizeHtml = sanitizeHtml;
+window.escapeHtml = escapeHtml;
 
+function escapeHtml(text) {
+    if (text == null || text === undefined) {
+        return '';
+    }
+    
+    const str = String(text);
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+        '/': '&#x2F;'
+    };
+    
+    return str.replace(/[&<>"'/]/g, function(m) { return map[m]; });
+}
 
 function sanitizeHtml(text){
+    if (text == null || text === undefined) {
+        return '';
+    }
+    
     const tempHtml = document.createElement('div');
     tempHtml.textContent = text;
     return tempHtml.innerHTML; 

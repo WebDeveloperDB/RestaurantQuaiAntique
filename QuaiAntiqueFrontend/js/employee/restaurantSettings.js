@@ -32,11 +32,11 @@ async function loadSettings() {
     const res  = await fetchWithAuth("http://localhost:8000/api/admin/restaurant");
     const json = await toJsonOrThrow(res);
 
-    maxGuestInput.value = json.maxGuest;
+    maxGuestInput.value = window.escapeHtml(json.maxGuest);
 
-    [midiStart.value, midiEnd.value] = json.amOpeningTime;
+    [midiStart.value, midiEnd.value] = json.amOpeningTime.map(window.escapeHtml);
 
-    [soirStart.value, soirEnd.value] = json.pmOpeningTime;
+    [soirStart.value, soirEnd.value] = json.pmOpeningTime.map(window.escapeHtml);
 
     msg.className   = "";
     msg.textContent = "";
@@ -44,7 +44,7 @@ async function loadSettings() {
   } catch (error) {
     console.error('Erreur:', error);
     msg.className   = "text-danger";
-    msg.textContent = "Erreur lors du chargement : " + error.message;
+    msg.textContent = "Erreur lors du chargement : " + window.escapeHtml(error.message);
   }
 }
 
@@ -88,7 +88,7 @@ async function saveSettings() {
 
   } catch (error) {
     msg.className   = "text-danger";
-    msg.textContent = "Erreur de sauvegarde : " + error.message;
+    msg.textContent = "Erreur de sauvegarde : " + window.escapeHtml(error.message);
 
   }
 }

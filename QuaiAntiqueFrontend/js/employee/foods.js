@@ -47,9 +47,9 @@ function displayCategoriesCheckboxes() {
         const div = document.createElement('div');
         div.className = 'form-check';
         div.innerHTML = `
-            <input class="form-check-input category-checkbox" type="checkbox" value="${category.id}" id="cat${category.id}">
-            <label class="form-check-label" for="cat${category.id}">
-                ${window.sanitizeHtml(category.title)}
+            <input class="form-check-input category-checkbox" type="checkbox" value="${window.escapeHtml(category.id)}" id="cat${window.escapeHtml(category.id)}">
+            <label class="form-check-label" for="cat${window.escapeHtml(category.id)}">
+                ${window.escapeHtml(category.title)}
             </label>
         `;
         container.appendChild(div);
@@ -80,8 +80,8 @@ function displayPictureSelect() {
 
     allPictures.forEach(picture => {
         const option = document.createElement('option');
-        option.value = picture.id;
-        option.textContent = picture.title;
+        option.value = window.escapeHtml(picture.id);
+        option.textContent = window.escapeHtml(picture.title);
         select.appendChild(option);
     });
 }
@@ -123,18 +123,18 @@ function displayFoods(foods) {
         const categoriesText = food.categories.map(cat => cat.title).join(', ') || '-';
         
         tr.innerHTML = `
-            <td>${food.id}</td>
-            <td>${window.sanitizeHtml(food.title)}</td>
-            <td>${window.sanitizeHtml(food.description)}</td>
-            <td>${priceInEuros}€</td>
-            <td>${window.sanitizeHtml(categoriesText)}</td>
-            <td>${food.createdAt || '-'}</td>
-            <td>${food.updatedAt || '-'}</td>
+            <td>${window.escapeHtml(food.id)}</td>
+            <td>${window.escapeHtml(food.title)}</td>
+            <td>${window.escapeHtml(food.description)}</td>
+            <td>${window.escapeHtml(priceInEuros)}€</td>
+            <td>${window.escapeHtml(categoriesText)}</td>
+            <td>${window.escapeHtml(food.createdAt || '-')}</td>
+            <td>${window.escapeHtml(food.updatedAt || '-')}</td>
             <td data-show="employe,admin">
-                <button class="btn btn-sm btn-warning me-1" onclick="editFood(${food.id})">
+                <button class="btn btn-sm btn-warning me-1" onclick="editFood(${window.escapeHtml(food.id)})">
                     <i class="bi bi-pencil"></i> Modifier
                 </button>
-                <button class="btn btn-sm btn-danger" onclick="deleteFood(${food.id})">
+                <button class="btn btn-sm btn-danger" onclick="deleteFood(${window.escapeHtml(food.id)})">
                     <i class="bi bi-trash"></i> Supprimer
                 </button>
             </td>

@@ -45,20 +45,20 @@ function displayMenus(menus) {
         
         let imageHtml = '';
         if (menu.picture) {
-            const imageUrl = `http://localhost:8000${menu.picture.url}`;
-            imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.sanitizeHtml(menu.title)}" style="height: 200px; object-fit: cover;">`;
+            const imageUrl = `http://localhost:8000${window.escapeHtml(menu.picture.url)}`;
+            imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.escapeHtml(menu.title)}" style="height: 200px; object-fit: cover;">`;
         }
         
         col.innerHTML = `
-            <div class="card h-100 shadow-sm hover-card" onclick="trackMenuView(${menu.id})" style="cursor: pointer;">
+            <div class="card h-100 shadow-sm hover-card" onclick="trackMenuView(${window.escapeHtml(menu.id)})" style="cursor: pointer;">
                 ${imageHtml}
                 <div class="card-body">
-                    <h5 class="card-title text-primary">${window.sanitizeHtml(menu.title)}</h5>
-                    <p class="card-text" style="white-space: pre-line;">${window.sanitizeHtml(menu.description)}</p>
+                    <h5 class="card-title text-primary">${window.escapeHtml(menu.title)}</h5>
+                    <p class="card-text" style="white-space: pre-line;">${window.escapeHtml(menu.description)}</p>
                 </div>
                 <div class="card-footer bg-white border-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="h4 mb-0 text-success">${priceInEuros} €</span>
+                        <span class="h4 mb-0 text-success">${window.escapeHtml(priceInEuros)} €</span>
                     </div>
                 </div>
             </div>
@@ -127,8 +127,8 @@ function displayFoodsByCategory(foods) {
         categorySection.className = 'mb-5';
         
         categorySection.innerHTML = `
-            <h3 class="mb-3 pb-2 border-bottom">${window.sanitizeHtml(categoryName)}</h3>
-            <div class="row" id="category-${categoryName}"></div>
+            <h3 class="mb-3 pb-2 border-bottom">${window.escapeHtml(categoryName)}</h3>
+            <div class="row" id="category-${window.escapeHtml(categoryName)}"></div>
         `;
         
         container.appendChild(categorySection);
@@ -143,19 +143,19 @@ function displayFoodsByCategory(foods) {
             
             let imageHtml = '';
             if (food.picture) {
-                const imageUrl = `http://localhost:8000${food.picture.url}`;
-                imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.sanitizeHtml(food.title)}" style="height: 200px; object-fit: cover;">`;
+                const imageUrl = `http://localhost:8000${window.escapeHtml(food.picture.url)}`;
+                imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.escapeHtml(food.title)}" style="height: 200px; object-fit: cover;">`;
             }
             
             col.innerHTML = `
-                <div class="card h-100 shadow-sm hover-card" onclick="trackFoodView(${food.id})" style="cursor: pointer;">
+                <div class="card h-100 shadow-sm hover-card" onclick="trackFoodView(${window.escapeHtml(food.id)})" style="cursor: pointer;">
                     ${imageHtml}
                     <div class="card-body">
-                        <h5 class="card-title">${window.sanitizeHtml(food.title)}</h5>
-                        <p class="card-text text-muted">${window.sanitizeHtml(food.description)}</p>
+                        <h5 class="card-title">${window.escapeHtml(food.title)}</h5>
+                        <p class="card-text text-muted">${window.escapeHtml(food.description)}</p>
                     </div>
                     <div class="card-footer bg-white border-0">
-                        <span class="h5 mb-0 text-success">${priceInEuros} €</span>
+                        <span class="h5 mb-0 text-success">${window.escapeHtml(priceInEuros)} €</span>
                     </div>
                 </div>
             `;
