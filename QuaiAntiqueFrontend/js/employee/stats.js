@@ -23,8 +23,8 @@ async function loadStats() {
 }
 
 function displayStats(stats) {
-    document.getElementById('totalFoodViews').textContent = stats.totalFoodViews.toLocaleString('fr-FR');
-    document.getElementById('totalMenuViews').textContent = stats.totalMenuViews.toLocaleString('fr-FR');
+    document.getElementById('totalFoodViews').textContent = window.escapeHtml(stats.totalFoodViews.toLocaleString('fr-FR'));
+    document.getElementById('totalMenuViews').textContent = window.escapeHtml(stats.totalMenuViews.toLocaleString('fr-FR'));
     
     displayTopFoods(stats.topFoods);
     displayTopMenus(stats.topMenus);
@@ -43,17 +43,17 @@ function displayTopFoods(foods) {
         
         return `
             <tr>
-                <td><strong>${index + 1}</strong></td>
-                <td>${window.sanitizeHtml(food.name)}</td>
-                <td><span class="badge bg-primary">${food.views}</span></td>
+                <td><strong>${window.escapeHtml(index + 1)}</strong></td>
+                <td>${window.escapeHtml(food.name)}</td>
+                <td><span class="badge bg-primary">${window.escapeHtml(food.views)}</span></td>
                 <td>
                     <div class="progress" style="height: 20px;">
                         <div class="progress-bar bg-primary" role="progressbar" 
-                             style="width: ${barWidth}%;" 
-                             aria-valuenow="${food.views}" 
+                             style="width: ${window.escapeHtml(barWidth)}%;" 
+                             aria-valuenow="${window.escapeHtml(food.views)}" 
                              aria-valuemin="0" 
-                             aria-valuemax="${foods[0].views}">
-                            ${barWidth.toFixed(0)}%
+                             aria-valuemax="${window.escapeHtml(foods[0].views)}">
+                            ${window.escapeHtml(barWidth.toFixed(0))}%
                         </div>
                     </div>
                 </td>
@@ -75,17 +75,17 @@ function displayTopMenus(menus) {
         
         return `
             <tr>
-                <td><strong>${index + 1}</strong></td>
-                <td>${window.sanitizeHtml(menu.name)}</td>
-                <td><span class="badge bg-success">${menu.views}</span></td>
+                <td><strong>${window.escapeHtml(index + 1)}</strong></td>
+                <td>${window.escapeHtml(menu.name)}</td>
+                <td><span class="badge bg-success">${window.escapeHtml(menu.views)}</span></td>
                 <td>
                     <div class="progress" style="height: 20px;">
                         <div class="progress-bar bg-success" role="progressbar" 
-                             style="width: ${barWidth}%;" 
-                             aria-valuenow="${menu.views}" 
+                             style="width: ${window.escapeHtml(barWidth)}%;" 
+                             aria-valuenow="${window.escapeHtml(menu.views)}" 
                              aria-valuemin="0" 
-                             aria-valuemax="${menus[0].views}">
-                            ${barWidth.toFixed(0)}%
+                             aria-valuemax="${window.escapeHtml(menus[0].views)}">
+                            ${window.escapeHtml(barWidth.toFixed(0))}%
                         </div>
                     </div>
                 </td>
