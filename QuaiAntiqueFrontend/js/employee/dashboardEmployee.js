@@ -61,7 +61,7 @@ async function loadUsers() {
 
         users.forEach(user => {
             const div = document.createElement("div");
-            div.innerHTML = `<strong>${user.email}</strong> - ${user.role}`;
+            div.innerHTML = `<strong>${window.escapeHtml(user.email)}</strong> - ${window.escapeHtml(user.role)}`;
             userList.appendChild(div);
         });
     } catch (error) {
