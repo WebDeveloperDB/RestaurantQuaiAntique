@@ -48,21 +48,21 @@ function displayPictures(pictures) {
         const col = document.createElement('div');
         col.className = 'col-md-4 col-lg-3 mb-4';
         
-        const imageUrl = `http://localhost:8000${picture.url}`;
+        const imageUrl = `http://localhost:8000${window.escapeHtml(picture.url)}`;
         
         col.innerHTML = `
             <div class="card h-100 shadow-sm">
-                <img src="${imageUrl}" class="card-img-top" alt="${window.sanitizeHtml(picture.title)}" 
-                     style="height: 200px; object-fit: cover;" title="${window.sanitizeHtml(picture.title)}">
+                <img src="${imageUrl}" class="card-img-top" alt="${window.escapeHtml(picture.title)}" 
+                     style="height: 200px; object-fit: cover;" title="${window.escapeHtml(picture.title)}">
                 <div class="card-body">
-                    <h6 class="card-title">${window.sanitizeHtml(picture.title)}</h6>
-                    <small class="text-muted">Ajoutée le ${picture.createdAt || '-'}</small>
+                    <h6 class="card-title">${window.escapeHtml(picture.title)}</h6>
+                    <small class="text-muted">Ajoutée le ${window.escapeHtml(picture.createdAt || '-')}</small>
                 </div>
                 <div class="card-footer bg-white border-0" data-show="employe,admin">
-                    <button class="btn btn-sm btn-warning me-1" onclick="editPicture(${picture.id})">
+                    <button class="btn btn-sm btn-warning me-1" onclick="editPicture(${window.escapeHtml(picture.id)})">
                         <i class="bi bi-pencil"></i> Modifier
                     </button>
-                    <button class="btn btn-sm btn-danger" onclick="deletePicture(${picture.id})">
+                    <button class="btn btn-sm btn-danger" onclick="deletePicture(${window.escapeHtml(picture.id)})">
                         <i class="bi bi-trash"></i> Supprimer
                     </button>
                 </div>
