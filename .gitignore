@@ -6,6 +6,9 @@ vendor/
 .env
 .env.local
 
+DEPLOIEMENT_RAILWAY.md
+
+
 # Build files
 /QuaiAntiqueFrontend/dist/
 /QuaiAntiqueBackend/restaurant_backend/var/
