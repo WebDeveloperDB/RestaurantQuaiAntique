@@ -1,6 +1,6 @@
 # Quai Antique - Application de Gestion de Restaurant
 
-Application web complète pour le restaurant "Quai Antique" avec gestion des menus, réservations, galerie photos et statistiques.
+Application web pour le restaurant Quai Antique avec gestion des menus, réservations, galerie photos et statistiques.
 
 ---
 
@@ -20,9 +20,9 @@ Application web complète pour le restaurant "Quai Antique" avec gestion des men
 
 Avant de commencer, assurez-vous d'avoir installé :
 
-- **PHP** >= 8.1
+- **PHP** >= 8.2
 - **Composer** >= 2.0
-- **PostgreSQL** >= 14
+- **PostgreSQL** >= 16
 - **MongoDB** >= 5.0
 - **Apache** (XAMPP)
 - **Git**
@@ -49,12 +49,7 @@ composer install
 
 ```bash
 php bin/console doctrine:database:create
-
-# Exécuter le fichier SQL fourni via PostgreSQL
-psql -U postgres -d restaurant_quai_antique -f ../../database.sql
 ```
-
-**Alternative** : Importer le fichier `database.sql` via **pgAdmin**
 
 ### 4. Vérifier MongoDB
 
@@ -86,7 +81,7 @@ MONGODB_DB=quai_antique_stats
 
 
 ```
-Remplacez `_mot_de_passe` par votre mot de passe PostgreSQL
+Remplacez 'votre_user' et 'votre_password' par vos identifiants.
 
 ### 2. Vérifier les migrations
 
@@ -104,25 +99,12 @@ php bin/console doctrine:migrations:migrate
 cd QuaiAntiqueBackend/restaurant_backend
 symfony server:start
 ```
+**Backend accessible sur : http://localhost:8000/api**
 
-**ou avec PHP :**
 
-```bash
-php -S localhost:8000 -t public
-```
+### 2. Accéder au Frontend
 
-**Backend accessible sur : http://localhost:8000**
-
-### 2. Démarrer le serveur Frontend
-
-**Option A - avec PHP :**
-
-```bash
-cd QuaiAntiqueFrontend
-php -S localhost:3000
-```
-
-**Option B - avec Apache (XAMPP) :**
+**Avec Apache (XAMPP) :**
 
 Placer le projet dans `C:\xampp\htdocs\QuaiAntique` et accéder via :
 
@@ -155,6 +137,7 @@ Placer le projet dans `C:\xampp\htdocs\QuaiAntique` et accéder via :
 
 ### Frontend
 
+- **HTML5 / CSS3** - Structure et style
 - **JavaScript** - SPA avec routing
 - **Bootstrap 5** - Design responsive
 - **Fetch API** - Communication avec le backend
