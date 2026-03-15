@@ -19,7 +19,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-plugins
 
 EXPOSE 8080
 
