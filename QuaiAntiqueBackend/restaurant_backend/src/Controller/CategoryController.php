@@ -85,9 +85,7 @@ class CategoryController extends AbstractController
 
      
         $em->persist($category);
-        
-    
-         */
+
         $em->flush();
 
        
