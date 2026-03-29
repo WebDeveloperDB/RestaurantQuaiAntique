@@ -24,6 +24,10 @@ class RestaurantSettingsController extends AbstractController
         /** @var Restaurant $restaurant */
         $restaurant = $em->getRepository(Restaurant::class)->findOneBy([]);
 
+        if (!$restaurant) {
+            return $this->json(['error' => 'Restaurant not found'], 404);
+        }
+
      
         return $this->json([
             'maxGuest'        => $restaurant->getMaxGuest(),
@@ -47,6 +51,10 @@ class RestaurantSettingsController extends AbstractController
         
         /** @var Restaurant $restaurant */
         $restaurant = $em->getRepository(Restaurant::class)->findOneBy([]);
+
+        if (!$restaurant) {
+            return $this->json(['error' => 'Restaurant not found'], 404);
+        }
 
         
         if (isset($data['maxGuest'])) {

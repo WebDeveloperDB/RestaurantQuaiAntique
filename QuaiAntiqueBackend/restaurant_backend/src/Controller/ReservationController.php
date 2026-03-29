@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Booking;
+use App\Entity\User;
 use App\Repository\BookingRepository;
 use App\Repository\RestaurantRepository;
 use App\Service\AvailabilityService;
@@ -82,15 +83,24 @@ class ReservationController extends AbstractController
             return $this->json(['error' => 'Invalid guest number'], 400);
         }
 
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            return $this->json(['error' => 'Invalid authenticated user'], 401);
+        }
+
         
         $restaurant = $restoRepo->findOneBy([]);
+        if (!$restaurant) {
+            return $this->json(['error' => 'Restaurant not found'], 404);
+        }
+
         if (!$checker->isSlotFree($restaurant, $slot, $guests)) {
             return $this->json(['message' => 'Complet'], 409);
         }
 
      
         $booking = (new Booking())
-            ->setUser($this->getUser())
+            ->setUser($user)
             ->setOrderDateTime($slot)
             ->setOrderDate(\DateTime::createFromImmutable($slot))
             ->setOrderHour(\DateTime::createFromImmutable($slot))
