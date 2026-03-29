@@ -16,6 +16,15 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class ApiTokenAuthenticator extends AbstractAuthenticator
 {
+    private const PUBLIC_GET_PATTERNS = [
+        '#^/api/categories(?:/\d+)?$#',
+        '#^/api/foods(?:/\d+)?$#',
+        '#^/api/menus(?:/\d+)?$#',
+        '#^/api/pictures(?:/\d+)?$#',
+        '#^/api/admin/restaurant$#',
+        '#^/api/reservations/available$#',
+    ];
+
     public function __construct(private readonly UserRepository $userRepository)
     {
     }
@@ -23,9 +32,25 @@ class ApiTokenAuthenticator extends AbstractAuthenticator
     public function supports(Request $request): ?bool
     {
         $path = $request->getPathInfo();
+        $method = strtoupper($request->getMethod());
 
-        
-        if ($path === '/api/login' || str_starts_with($path, '/api/registration')) {
+        if ($method === 'OPTIONS') {
+            return false;
+        }
+
+        if ($path === '/api/login' || str_starts_with($path, '/api/registration') || str_starts_with($path, '/api/doc')) {
+            return false;
+        }
+
+        if ($method === 'GET') {
+            foreach (self::PUBLIC_GET_PATTERNS as $pattern) {
+                if (preg_match($pattern, $path) === 1) {
+                    return false;
+                }
+            }
+        }
+
+        if ($method === 'POST' && preg_match('#^/api/stats/(?:food|menu)/\d+/view$#', $path) === 1) {
             return false;
         }
 
