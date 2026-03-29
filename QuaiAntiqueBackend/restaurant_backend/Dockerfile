@@ -17,13 +17,19 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-COPY . .
+COPY composer.json ./
+COPY composer.lock* ./
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-plugins
 
+COPY . .
+
+
+RUN test -f vendor/autoload_runtime.php
+
 EXPOSE 8080
 
-CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t public"]
+CMD ["sh", "-c", "if [ ! -f vendor/autoload_runtime.php ]; then composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-plugins; fi; php -S 0.0.0.0:${PORT:-8080} -t public"]
