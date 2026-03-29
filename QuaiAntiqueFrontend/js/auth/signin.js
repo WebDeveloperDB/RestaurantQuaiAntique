@@ -1,4 +1,4 @@
-document.getElementById("btnSignin").addEventListener("click", async (e) => {
+﻿document.getElementById("btnSignin").addEventListener("click", async (e) => {
     e.preventDefault();
 
     const email    = document.getElementById("EmailInput").value.trim();
@@ -33,11 +33,12 @@ document.getElementById("btnSignin").addEventListener("click", async (e) => {
         localStorage.setItem('roles', JSON.stringify(roles));
         localStorage.setItem('email', data.user);
         
-        window.location.href = "/QuaiAntique/QuaiAntiqueFrontend/";
+        window.location.href = "/";
     } else {
         alert("Erreur de connexion: " + (data.message ?? response.status));
     }
 });
+
 
 
 

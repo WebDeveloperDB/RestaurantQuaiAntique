@@ -1,4 +1,4 @@
-const API_BASE = "https://restaurantquaiantique-production.up.railway.app/api";
+﻿const API_BASE = "https://restaurantquaiantique-production.up.railway.app/api";
 
 let restaurantSettings = null;
 let currentUser = null;
@@ -87,7 +87,7 @@ function setupEventListeners() {
 
     if (btnCancel) {
         btnCancel.addEventListener("click", () => {
-            window.location.href = "/QuaiAntique/QuaiAntiqueFrontend/";
+            window.location.href = "/";
         });
     }
 }
@@ -234,7 +234,7 @@ async function handleReservation() {
         showMessage("Réservation confirmée!", "success");
         
         setTimeout(() => {
-            window.location.href = "/QuaiAntique/QuaiAntiqueFrontend/allResa";
+            window.location.href = "/allResa";
         }, 1500);
 
     } catch (error) {
@@ -333,8 +333,9 @@ async function deleteReservation(id) {
 
 window.deleteReservation = deleteReservation;
 
-if (window.location.pathname === "/QuaiAntique/QuaiAntiqueFrontend/reserver") {
+if (window.location.pathname === "/reserver") {
     init();
-} else if (window.location.pathname === "/QuaiAntique/QuaiAntiqueFrontend/allResa") {
+} else if (window.location.pathname === "/allResa") {
     loadAllReservations();
 }
+

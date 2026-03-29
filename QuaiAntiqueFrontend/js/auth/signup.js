@@ -1,4 +1,4 @@
-const inputNom = document.getElementById("NomInput");
+﻿const inputNom = document.getElementById("NomInput");
 const inputPreNom = document.getElementById("PrenomInput");
 const inputMail = document.getElementById("EmailInput");
 const inputPassword = document.getElementById("PasswordInput");
@@ -116,10 +116,11 @@ function InscrireUtilisateur() {
         })
         .then(result => {
             alert("Bravo " + dataForm.get("prenom") + ", vous êtes maintenant inscrit, vous pouvez vous connecter.");
-            document.location.href = "/QuaiAntique/QuaiAntiqueFrontend/signin";
+            document.location.href = "/signin";
         })
         .catch(error => {
             alert("Erreur lors de l'inscription: " + error.message);
         });
 }
+
 

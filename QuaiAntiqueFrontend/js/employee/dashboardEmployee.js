@@ -1,7 +1,7 @@
-const userRole = getRole();
+﻿const userRole = getRole();
 if (userRole !== 'ROLE_ADMIN') {
     alert('Accès refusé. Cette page est réservée aux administrateurs.');
-    window.location.href = '/QuaiAntique/QuaiAntiqueFrontend/';
+    window.location.href = '/';
 }
 async function fetchWithAuth(url, options = {}) {
     const token = getToken();
@@ -134,3 +134,4 @@ async function deleteUser() {
 }
 
 loadUsers();
+
