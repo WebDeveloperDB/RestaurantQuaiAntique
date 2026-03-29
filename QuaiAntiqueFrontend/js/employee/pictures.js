@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://ton-backend.up.railway.app/api';
+const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
 let deleteModalInstance;
 let currentDeleteId = null;
 
@@ -48,7 +48,7 @@ function displayPictures(pictures) {
         const col = document.createElement('div');
         col.className = 'col-md-4 col-lg-3 mb-4';
         
-        const imageUrl = `https://ton-backend.up.railway.app${window.escapeHtml(picture.url)}`;
+        const imageUrl = `https://restaurantquaiantique-production.up.railway.app${window.escapeHtml(picture.url)}`;
         
         col.innerHTML = `
             <div class="card h-100 shadow-sm">
@@ -188,7 +188,7 @@ async function editPicture(id) {
             
             const currentImageContainer = document.getElementById('currentImageContainer');
             const currentImage = document.getElementById('currentImage');
-            currentImage.src = `https://ton-backend.up.railway.app${picture.url}`;
+            currentImage.src = `https://restaurantquaiantique-production.up.railway.app${picture.url}`;
             currentImage.alt = picture.title;
             currentImageContainer.style.display = 'block';
             

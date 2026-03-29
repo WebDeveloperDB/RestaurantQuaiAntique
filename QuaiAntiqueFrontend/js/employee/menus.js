@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://ton-backend.up.railway.app/api';
+const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
 let deleteModalInstance;
 let currentDeleteId = null;
 let allPictures = [];

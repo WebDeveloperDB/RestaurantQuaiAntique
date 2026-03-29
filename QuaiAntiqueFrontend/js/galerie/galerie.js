@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://ton-backend.up.railway.app/api';
+const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
 
 loadPictures();
 
@@ -42,7 +42,7 @@ function displayPictures(pictures) {
         const col = document.createElement('div');
         col.className = 'col-md-4 col-lg-3 mb-4';
         
-        const imageUrl = `https://ton-backend.up.railway.app${window.escapeHtml(picture.url)}`;
+        const imageUrl = `https://restaurantquaiantique-production.up.railway.app${window.escapeHtml(picture.url)}`;
         
         col.innerHTML = `
             <div class="image-card">

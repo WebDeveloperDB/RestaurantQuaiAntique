@@ -1,4 +1,4 @@
-const API_URL = 'https://ton-backend.up.railway.app/api/categories';
+const API_URL = 'https://restaurantquaiantique-production.up.railway.app/api/categories';
 
 let deleteModal;
 

@@ -1,4 +1,4 @@
-const apiUrl = 'https://ton-backend.up.railway.app/api';
+const apiUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
 
 async function loadStats() {
     const token = localStorage.getItem('token');
