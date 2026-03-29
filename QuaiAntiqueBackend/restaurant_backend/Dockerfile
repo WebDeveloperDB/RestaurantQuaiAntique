@@ -1,6 +1,5 @@
 FROM php:8.3-cli-bookworm
 
-# System packages and PHP extensions needed by Symfony + PostgreSQL + MongoDB
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         git \
@@ -27,9 +26,8 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 
 COPY . .
 
-
-RUN test -f vendor/autoload_runtime.php
+RUN test -f autoload_runtime.php && test -f vendor/autoload.php
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "if [ ! -f vendor/autoload_runtime.php ]; then composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-plugins; fi; php -S 0.0.0.0:${PORT:-8080} -t public"]
+CMD ["sh", "-c", "if [ ! -f vendor/autoload.php ]; then composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --no-plugins; fi; php -S 0.0.0.0:${PORT:-8080} -t public"]
