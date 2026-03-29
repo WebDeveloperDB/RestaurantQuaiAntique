@@ -1,4 +1,4 @@
-const apiBaseUrl = 'http://localhost:8000/api';
+const apiBaseUrl = 'https://ton-backend.up.railway.app/api';
 
 loadMenus();
 loadFoods();
@@ -45,7 +45,7 @@ function displayMenus(menus) {
         
         let imageHtml = '';
         if (menu.picture) {
-            const imageUrl = `http://localhost:8000${window.escapeHtml(menu.picture.url)}`;
+            const imageUrl = `https://ton-backend.up.railway.app${window.escapeHtml(menu.picture.url)}`;
             imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.escapeHtml(menu.title)}" style="height: 200px; object-fit: cover;">`;
         }
         
@@ -143,7 +143,7 @@ function displayFoodsByCategory(foods) {
             
             let imageHtml = '';
             if (food.picture) {
-                const imageUrl = `http://localhost:8000${window.escapeHtml(food.picture.url)}`;
+                const imageUrl = `https://ton-backend.up.railway.app${window.escapeHtml(food.picture.url)}`;
                 imageHtml = `<img src="${imageUrl}" class="card-img-top" alt="${window.escapeHtml(food.title)}" style="height: 200px; object-fit: cover;">`;
             }
             

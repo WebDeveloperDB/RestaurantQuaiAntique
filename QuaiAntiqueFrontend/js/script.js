@@ -139,7 +139,7 @@ function getInfosUser(){
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8000/api", requestOptions)
+    fetch("https://ton-backend.up.railway.app/api", requestOptions)
     .then(response =>{
         if(response.ok){
             return response.json();

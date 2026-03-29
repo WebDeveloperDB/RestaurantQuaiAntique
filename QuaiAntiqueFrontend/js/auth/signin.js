@@ -4,7 +4,7 @@ document.getElementById("btnSignin").addEventListener("click", async (e) => {
     const email    = document.getElementById("EmailInput").value.trim();
     const password = document.getElementById("PasswordInput").value;
 
-    const response = await fetch("http://localhost:8000/api/login", {
+    const response = await fetch("https://ton-backend.up.railway.app/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

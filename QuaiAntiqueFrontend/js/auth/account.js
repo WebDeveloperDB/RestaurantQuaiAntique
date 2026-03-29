@@ -27,7 +27,7 @@ btnDelete.addEventListener("click", deleteAccount);
 async function updateInfos() {
   const data = Object.fromEntries(new FormData(infosForm));
   try {
-    const res = await fetchWithAuth("http://localhost:8000/api/account", {
+    const res = await fetchWithAuth("https://ton-backend.up.railway.app/api/account", {
       method: "PUT",
       body: JSON.stringify({
         firstName:   data.Prenom,
@@ -51,7 +51,7 @@ async function changePassword() {
     return;
   }
   try {
-    const res = await fetchWithAuth("http://localhost:8000/api/account", {
+    const res = await fetchWithAuth("https://ton-backend.up.railway.app/api/account", {
       method: "PUT",
       body: JSON.stringify({ password: data.Password })
     });
@@ -67,7 +67,7 @@ async function changePassword() {
 async function deleteAccount() {
   if (!confirm("Supprimer votre compte ?")) return;
   try {
-    const res = await fetchWithAuth("http://localhost:8000/api/account", { method: "DELETE" });
+    const res = await fetchWithAuth("https://ton-backend.up.railway.app/api/account", { method: "DELETE" });
     if (!res.ok) throw new Error(await res.text());
     alert("Compte supprimé – au revoir !");
     signout();

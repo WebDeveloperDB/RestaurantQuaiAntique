@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000/api";
+const API_BASE = "https://ton-backend.up.railway.app/api";
 
 let restaurantSettings = null;
 let currentUser = null;
