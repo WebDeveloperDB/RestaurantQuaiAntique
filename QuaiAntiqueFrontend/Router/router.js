@@ -1,7 +1,49 @@
 import Route from "./Route.js";
-import { allRoutes, websiteName, basePath } from "./allRoutes.js";
+import { allRoutes, websiteName } from "./allRoutes.js";
 
-const route404 = new Route("404", "Page introuvable", basePath + "/pages/404.html", []);
+const getRuntimeBasePath = () => {
+  const marker = "/QuaiAntiqueFrontend/";
+  const pathname = new URL(import.meta.url).pathname;
+  return pathname.includes(marker) ? "/QuaiAntiqueFrontend" : "";
+};
+
+const runtimeBasePath = getRuntimeBasePath();
+const route404 = new Route("404", "Page introuvable", "/pages/404.html", []);
+
+const stripBasePath = (pathname) => {
+  if (runtimeBasePath && pathname.startsWith(runtimeBasePath)) {
+    const stripped = pathname.slice(runtimeBasePath.length);
+    return stripped || "/";
+  }
+
+  return pathname || "/";
+};
+
+const looksLikeAppShell = (html) => {
+  return html.includes('id="main-page"') || html.includes("id='main-page'");
+};
+
+const fetchRouteHtml = async (routePath) => {
+  const candidates = [
+    `${runtimeBasePath}${routePath}`,
+    routePath,
+    `/QuaiAntiqueFrontend${routePath}`,
+  ];
+
+  for (const candidate of [...new Set(candidates)]) {
+    const response = await fetch(candidate);
+    if (!response.ok) {
+      continue;
+    }
+
+    const html = await response.text();
+    if (!looksLikeAppShell(html)) {
+      return html;
+    }
+  }
+
+  throw new Error("Unable to load route html");
+};
 
 const getRouteByUrl = (url) => {
   let currentRoute = null;
@@ -14,7 +56,7 @@ const getRouteByUrl = (url) => {
 };
 
 const LoadContentPage = async () => {
-  const path = window.location.pathname;
+  const path = stripBasePath(window.location.pathname);
   const actualRoute = getRouteByUrl(path);
 
   const allRolesArray = actualRoute.authorize;
@@ -23,7 +65,7 @@ const LoadContentPage = async () => {
     if (allRolesArray.includes("disconnected")) {
       const connected = window.isConnected ? window.isConnected() : false;
       if (connected) {
-        window.location.replace(basePath + "/");
+        window.location.replace(runtimeBasePath + "/");
         return;
       }
     } else {
@@ -37,19 +79,19 @@ const LoadContentPage = async () => {
       }
       
       if (!hasAccess) {
-        window.location.replace(basePath + "/");
+        window.location.replace(runtimeBasePath + "/");
         return;
       }
     }
   }
 
-  const html = await fetch(actualRoute.pathHtml).then((data) => data.text());
+  const html = await fetchRouteHtml(actualRoute.pathHtml);
   document.getElementById("main-page").innerHTML = html;
 
   if (actualRoute.pathJS != "") {
     const scriptTag = document.createElement("script");
     scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", actualRoute.pathJS);
+    scriptTag.setAttribute("src", runtimeBasePath + actualRoute.pathJS);
     document.querySelector("body").appendChild(scriptTag);
   }
 
@@ -60,12 +102,33 @@ const LoadContentPage = async () => {
   }
 };
 
-const routeEvent = (event) => {
+const routeEvent = (event, hrefOverride = null) => {
   event = event || window.event;
   event.preventDefault();
-  window.history.pushState({}, "", event.target.href);
+  const href = hrefOverride || event.target.href;
+  window.history.pushState({}, "", href);
   LoadContentPage();
 };
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a[href]");
+  if (!link) {
+    return;
+  }
+
+  const href = link.getAttribute("href");
+  if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("#")) {
+    return;
+  }
+
+  const url = new URL(link.href, window.location.origin);
+  const normalizedPath = stripBasePath(url.pathname);
+  const matchingRoute = getRouteByUrl(normalizedPath);
+
+  if (matchingRoute !== route404 || normalizedPath === "/") {
+    routeEvent(event, url.pathname);
+  }
+});
 
 window.onpopstate = LoadContentPage;
 window.route = routeEvent;
