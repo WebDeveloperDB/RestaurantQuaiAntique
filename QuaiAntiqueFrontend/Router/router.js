@@ -1,5 +1,6 @@
 import Route from "./Route.js";
 import { allRoutes, websiteName } from "./allRoutes.js";
+import { pageTemplates } from "./pageTemplates.js";
 
 const getRuntimeBasePath = () => {
   const marker = "/QuaiAntiqueFrontend/";
@@ -24,6 +25,10 @@ const looksLikeAppShell = (html) => {
 };
 
 const fetchRouteHtml = async (routePath) => {
+  if (pageTemplates[routePath]) {
+    return pageTemplates[routePath];
+  }
+
   const candidates = [
     `${runtimeBasePath}${routePath}`,
     routePath,
@@ -42,7 +47,7 @@ const fetchRouteHtml = async (routePath) => {
     }
   }
 
-  throw new Error("Unable to load route html");
+  return pageTemplates["/pages/404.html"] || "<h1>404 - Page introuvable</h1>";
 };
 
 const getRouteByUrl = (url) => {
