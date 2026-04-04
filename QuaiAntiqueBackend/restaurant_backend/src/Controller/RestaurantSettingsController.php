@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\RestaurantRepository;
 
 
 use App\Entity\Restaurant;
@@ -18,15 +19,9 @@ class RestaurantSettingsController extends AbstractController
 {
     
     #[Route('', methods: ['GET'])]
-    public function show(EntityManagerInterface $em): JsonResponse
+    public function show(EntityManagerInterface $em, RestaurantRepository $restaurantRepository): JsonResponse
     {
-       
-        /** @var Restaurant $restaurant */
-        $restaurant = $em->getRepository(Restaurant::class)->findOneBy([]);
-
-        if (!$restaurant) {
-            return $this->json(['error' => 'Restaurant not found'], 404);
-        }
+        $restaurant = $this->getOrCreateRestaurant($em, $restaurantRepository);
 
      
         return $this->json([
@@ -40,7 +35,8 @@ class RestaurantSettingsController extends AbstractController
     #[Route('', methods: ['PUT'])]
     public function update(
         Request $req,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RestaurantRepository $restaurantRepository
     ): JsonResponse {
        
         $this->denyAccessUnlessGranted('ROLE_EMPLOYE');
@@ -49,12 +45,7 @@ class RestaurantSettingsController extends AbstractController
         $data = json_decode($req->getContent(), true);
 
         
-        /** @var Restaurant $restaurant */
-        $restaurant = $em->getRepository(Restaurant::class)->findOneBy([]);
-
-        if (!$restaurant) {
-            return $this->json(['error' => 'Restaurant not found'], 404);
-        }
+        $restaurant = $this->getOrCreateRestaurant($em, $restaurantRepository);
 
         
         if (isset($data['maxGuest'])) {
@@ -75,5 +66,26 @@ class RestaurantSettingsController extends AbstractController
 
     
         return $this->json(['message' => 'Paramètres enregistrés']);
+    }
+
+    private function getOrCreateRestaurant(EntityManagerInterface $em, RestaurantRepository $restaurantRepository): Restaurant
+    {
+        $restaurant = $restaurantRepository->findOneBy([]);
+        if ($restaurant instanceof Restaurant) {
+            return $restaurant;
+        }
+
+        $restaurant = (new Restaurant())
+            ->setName('Quai Antique')
+            ->setDescription('Configuration par defaut auto-creee en production')
+            ->setMaxGuest(50)
+            ->setAmOpeningTime(['12:00', '14:00'])
+            ->setPmOpeningTime(['19:00', '22:00'])
+            ->setCreatedAt(new \DateTimeImmutable());
+
+        $em->persist($restaurant);
+        $em->flush();
+
+        return $restaurant;
     }
 }

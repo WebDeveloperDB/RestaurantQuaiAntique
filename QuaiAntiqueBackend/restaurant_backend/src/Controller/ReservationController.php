@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Booking;
+use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Repository\BookingRepository;
 use App\Repository\RestaurantRepository;
@@ -22,6 +23,7 @@ class ReservationController extends AbstractController
     #[Route('/available', methods: ['GET'])]
     public function available(
         Request             $req,
+        EntityManagerInterface $em,
         RestaurantRepository $restoRepo,
         AvailabilityService  $checker
     ): JsonResponse {
@@ -43,10 +45,7 @@ class ReservationController extends AbstractController
         }
 
         
-        $restaurant = $restoRepo->findOneBy([]);
-        if (!$restaurant) {
-            return $this->json(['error' => 'Restaurant not found'], 404);
-        }
+        $restaurant = $this->getOrCreateRestaurant($em, $restoRepo);
 
      
         $isFree = $checker->isSlotFree($restaurant, $slot, $guestsInt);
@@ -62,56 +61,37 @@ class ReservationController extends AbstractController
         RestaurantRepository    $restoRepo,
         AvailabilityService     $checker
     ): JsonResponse {
-        
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-      
-        $data = json_decode($req->getContent(), true);
-        if (!$data) {
-            return $this->json(['error' => 'Invalid JSON'], 400);
+        $validated = $this->validateReservationPayload($req);
+        if ($validated['status'] !== 200) {
+            return $this->json($validated['body'], $validated['status']);
         }
 
-       
-        try {
-            $slot = new \DateTimeImmutable($data['datetime']);
-        } catch (\Exception $e) {
-            return $this->json(['error' => 'Invalid datetime format'], 400);
-        }
+        /** @var \DateTimeImmutable $slot */
+        $slot = $validated['slot'];
+        /** @var int $guests */
+        $guests = $validated['guests'];
+        /** @var User $user */
+        $user = $validated['user'];
+        $allergy = $validated['allergy'];
 
-        $guests = (int) ($data['guestNumber'] ?? 0);
-        if ($guests < 1) {
-            return $this->json(['error' => 'Invalid guest number'], 400);
-        }
-
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            return $this->json(['error' => 'Invalid authenticated user'], 401);
-        }
-
-        
-        $restaurant = $restoRepo->findOneBy([]);
-        if (!$restaurant) {
-            return $this->json(['error' => 'Restaurant not found'], 404);
-        }
-
+        $restaurant = $this->getOrCreateRestaurant($em, $restoRepo);
         if (!$checker->isSlotFree($restaurant, $slot, $guests)) {
             return $this->json(['message' => 'Complet'], 409);
         }
 
-     
         $booking = (new Booking())
             ->setUser($user)
             ->setOrderDateTime($slot)
             ->setOrderDate(\DateTime::createFromImmutable($slot))
             ->setOrderHour(\DateTime::createFromImmutable($slot))
             ->setGuestNumber($guests)
-            ->setAllergy($data['allergy'] ?? null)
+            ->setAllergy($allergy)
             ->setRestaurant($restaurant);
 
-  
         $em->persist($booking);
         $em->flush();
-
 
         return $this->json(['id' => $booking->getId()], 201);
     }
@@ -191,7 +171,7 @@ class ReservationController extends AbstractController
             $newSlot = new \DateTimeImmutable($data['datetime']);
             $newGuests = $data['guestNumber'] ?? $booking->getGuestNumber();
 
-            $restaurant = $restoRepo->findOneBy([]);
+            $restaurant = $this->getOrCreateRestaurant($em, $restoRepo);
             if (!$checker->isSlotFree($restaurant, $newSlot, $newGuests)) {
                 return $this->json(['message' => 'Complet'], 409);
             }
@@ -211,5 +191,67 @@ class ReservationController extends AbstractController
         $em->flush();
 
         return $this->json(['message' => 'Updated']);
+    }
+
+    private function getOrCreateRestaurant(EntityManagerInterface $em, RestaurantRepository $restoRepo): Restaurant
+    {
+        $restaurant = $restoRepo->findOneBy([]);
+        if ($restaurant instanceof Restaurant) {
+            return $restaurant;
+        }
+
+        $restaurant = (new Restaurant())
+            ->setName('Quai Antique')
+            ->setDescription('Configuration par defaut auto-creee en production')
+            ->setMaxGuest(50)
+            ->setAmOpeningTime(['12:00', '14:00'])
+            ->setPmOpeningTime(['19:00', '22:00'])
+            ->setCreatedAt(new \DateTimeImmutable());
+
+        $em->persist($restaurant);
+        $em->flush();
+
+        return $restaurant;
+    }
+
+    /**
+     * @return array{status:int, body:array<string,string>, slot?:\DateTimeImmutable, guests?:int, user?:User, allergy?:?string}
+     */
+    private function validateReservationPayload(Request $req): array
+    {
+        $data = json_decode($req->getContent(), true);
+        $result = ['status' => 200, 'body' => []];
+
+        if (!is_array($data)) {
+            $result = ['status' => 400, 'body' => ['error' => 'Invalid JSON']];
+        } else {
+            try {
+                $slot = new \DateTimeImmutable((string) ($data['datetime'] ?? ''));
+            } catch (\Exception $e) {
+                $slot = null;
+            }
+
+            $guests = (int) ($data['guestNumber'] ?? 0);
+            $user = $this->getUser();
+
+            if (!$slot instanceof \DateTimeImmutable) {
+                $result = ['status' => 400, 'body' => ['error' => 'Invalid datetime format']];
+            } elseif ($guests < 1) {
+                $result = ['status' => 400, 'body' => ['error' => 'Invalid guest number']];
+            } elseif (!$user instanceof User) {
+                $result = ['status' => 401, 'body' => ['error' => 'Invalid authenticated user']];
+            } else {
+                $result = [
+                    'status' => 200,
+                    'body' => [],
+                    'slot' => $slot,
+                    'guests' => $guests,
+                    'user' => $user,
+                    'allergy' => $data['allergy'] ?? null,
+                ];
+            }
+        }
+
+        return $result;
     }
 }
