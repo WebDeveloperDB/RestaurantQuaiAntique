@@ -89,7 +89,7 @@ class MenuController extends AbstractController
             return $this->json(['error' => 'Le prix est requis et doit être un nombre positif'], 400);
         }
 
-        // Récupérer le restaurant (on prend le premier pour l'instant)
+        // Récupérer le restaurant
         $restaurant = $restaurantRepo->findOneBy([]);
         if (!$restaurant) {
             return $this->json(['error' => 'Aucun restaurant trouvé'], 404);

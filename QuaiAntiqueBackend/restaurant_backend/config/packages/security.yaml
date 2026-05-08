@@ -24,56 +24,32 @@ security:
             custom_authenticator: App\Security\ApiTokenAuthenticator
 
     access_control:
-        # WICHTIG: Reihenfolge ist entscheidend - spezifische Regeln ZUERST!
         
-        # Öffentlich zugänglich
         - { path: ^/api/registration, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/doc, roles: PUBLIC_ACCESS }
-        
-        # nur ADMIN
         - { path: ^/api/admin/users, roles: ROLE_ADMIN }
         - { path: ^/api/admin/create-user, roles: ROLE_ADMIN }
-        
-        # restaurant settings: GET öffentlich, PUT/POST fur EMPLOYE oder ADMIN
         - { path: ^/api/admin/restaurant$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/admin, roles: ROLE_EMPLOYE }
-        
-        # Catégories: GET public, POST/PUT/DELETE fur EMPLOYEE oder ADMIN
         - { path: ^/api/categories$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/categories/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/categories, roles: ROLE_EMPLOYE }
-        
-        # Foods: GET public, POST/PUT/DELETE fur EMPLOYEE oder ADMIN
         - { path: ^/api/foods$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/foods/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/foods, roles: ROLE_EMPLOYE }
-        
-        # Menus: GET public, POST/PUT/DELETE fur EMPLOYEE oder ADMIN
         - { path: ^/api/menus$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/menus/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/menus, roles: ROLE_EMPLOYE }
-        
-        # Pictures: GET public, POST/PUT/DELETE fur EMPLOYEE oder ADMIN
         - { path: ^/api/pictures$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/pictures/\d+$, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/pictures, roles: ROLE_EMPLOYE }
-        
-        # Statistiques: POST fur speichern der vues public, GET fur konsultieren admin
         - { path: ^/api/stats/food/\d+/view$, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/api/stats/menu/\d+/view$, roles: PUBLIC_ACCESS, methods: [POST] }
         - { path: ^/api/stats, roles: ROLE_ADMIN }
-        
-        # Reservierungen: Verfügbarkeit öffentlich prüfbar
         - { path: ^/api/reservations/available, roles: PUBLIC_ACCESS }
-        
-        # Reservierungen: POST/GET/DELETE nur für eingeloggte User
         - { path: ^/api/reservations, roles: ROLE_USER }
-        
-        # Account verwaltung nur für eingeloggte User
         - { path: ^/api/account, roles: ROLE_USER }
-        
-        # Fallback: alles andere unter /api braucht ROLE_USER
         - { path: ^/api, roles: ROLE_USER }
 
 when@test:

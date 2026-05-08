@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 
 #[Route('/api/categories')]
@@ -59,8 +59,8 @@ class CategoryController extends AbstractController
     
     #[Route('', name: 'category_create', methods: ['POST'])]
     public function create(
-        Request $request,                    
-        EntityManagerInterface $em           
+        Request $request,
+        EntityManagerInterface $em
     ): JsonResponse {
         
        
