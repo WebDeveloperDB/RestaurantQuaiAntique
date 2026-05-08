@@ -7,7 +7,7 @@
 <div class="container">
     <form id="reservationForm" class="col-md-6 offset-md-3">
 
-        <!-- Name & Vorname (disabled, werden aus User-Daten gefüllt) -->
+        <!-- Name & Vorname (werden aus user daten gefüllt) -->
         <div class="mb-3">
             <label for="NomInput" class="form-label">Nom</label>
             <input disabled type="text" id="NomInput" class="form-control" placeholder="Votre nom">
@@ -18,7 +18,7 @@
             <input disabled type="text" id="PrenomInput" class="form-control" placeholder="Votre prénom">
         </div>
 
-        <!-- Allergien (optional, wird vorausgefüllt falls im Account gespeichert) -->
+        <!-- Allergien -->
         <div class="mb-3">
             <label for="AllergieInput" class="form-label">Allergies (facultatif)</label>
             <input type="text" id="AllergieInput" name="allergy"
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <!-- Uhrzeit (wird per JS mit 15-Minuten-Slots gefüllt) -->
+        <!-- Uhrzeit (wird per js mit 15 minuten slots gefüllt) -->
         <div class="mb-3">
             <label for="selectHour" class="form-label">Heure</label>
             <select id="selectHour" name="heure" class="form-select" required>
@@ -62,7 +62,7 @@
             </select>
         </div>
 
-        <!-- Live-Verfügbarkeitsmeldung -->
+        <!-- Live Verfügbarkeitsmeldung -->
         <div id="availabilityMsg" class="mb-3 text-center"></div>
 
         <!-- Buttons -->

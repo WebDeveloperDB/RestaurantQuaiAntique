@@ -5,7 +5,7 @@ const inputPassword = document.getElementById("PasswordInput");
 const inputValidationPassword = document.getElementById("ValidatePasswordInput");
 const btnValidation = document.getElementById("btn-validation-inscription");
 const formInscription = document.getElementById("formulaireInscription");
-const apiUrl = ("https://restaurantquaiantique-production.up.railway.app/api/registration");
+const apiUrl = ("http://localhost:8000/api/registration");
 
 
 inputNom.addEventListener("keyup", validateForm); 

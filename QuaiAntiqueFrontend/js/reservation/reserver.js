@@ -1,4 +1,4 @@
-﻿const API_BASE = "https://restaurantquaiantique-production.up.railway.app/api";
+﻿const API_BASE = "http://localhost:8000/api";
 
 let restaurantSettings = null;
 let currentUser = null;

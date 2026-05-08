@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
+const apiBaseUrl = 'http://localhost:8000/api';
 let deleteModalInstance;
 let currentDeleteId = null;
 
@@ -48,7 +48,7 @@ function displayPictures(pictures) {
         const col = document.createElement('div');
         col.className = 'col-md-4 col-lg-3 mb-4';
         
-        const imageUrl = `https://restaurantquaiantique-production.up.railway.app${window.escapeHtml(picture.url)}`;
+        const imageUrl = `http://localhost:8000${window.escapeHtml(picture.url)}`;
         
         col.innerHTML = `
             <div class="card h-100 shadow-sm">
@@ -188,7 +188,7 @@ async function editPicture(id) {
             
             const currentImageContainer = document.getElementById('currentImageContainer');
             const currentImage = document.getElementById('currentImage');
-            currentImage.src = `https://restaurantquaiantique-production.up.railway.app${picture.url}`;
+            currentImage.src = `http://localhost:8000${picture.url}`;
             currentImage.alt = picture.title;
             currentImageContainer.style.display = 'block';
             
@@ -247,3 +247,6 @@ function resetForm() {
     document.getElementById('submitBtn').innerHTML = '<i class="bi bi-upload"></i> Ajouter la photo';
     document.getElementById('cancelBtn').style.display = 'none';
 }
+
+window.editPicture = editPicture;
+window.deletePicture = deletePicture;

@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
+const apiBaseUrl = 'http://localhost:8000/api';
 let deleteModalInstance;
 let currentDeleteId = null;
 let allCategories = [];

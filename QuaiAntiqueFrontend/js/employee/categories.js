@@ -1,4 +1,4 @@
-const API_URL = 'https://restaurantquaiantique-production.up.railway.app/api/categories';
+const API_URL = 'http://localhost:8000/api/categories';
 
 let deleteModal;
 
@@ -91,7 +91,7 @@ function displayCategories(categories) {
         
         const titleSafe = typeof sanitizeHtml !== 'undefined' 
             ? sanitizeHtml(category.title)
-            : escapeHtml(category.title);
+            : escapeCategoryHtml(category.title);
         
         row.innerHTML = `
             <td>${category.id}</td>
@@ -99,10 +99,10 @@ function displayCategories(categories) {
             <td>${createdAt}</td>
             <td>${updatedAt}</td>
             <td data-show="employe,admin">
-                <button class="btn btn-sm btn-primary" onclick="editCategory(${category.id}, '${escapeHtml(category.title)}')">
+                <button class="btn btn-sm btn-primary" onclick="editCategory(${category.id}, '${escapeCategoryHtml(category.title)}')">
                     <i class="bi bi-pencil"></i> Modifier
                 </button>
-                <button class="btn btn-sm btn-danger" onclick="deleteCategory(${category.id}, '${escapeHtml(category.title)}')">
+                <button class="btn btn-sm btn-danger" onclick="deleteCategory(${category.id}, '${escapeCategoryHtml(category.title)}')">
                     <i class="bi bi-trash"></i> Supprimer
                 </button>
             </td>
@@ -239,9 +239,13 @@ function resetForm() {
     document.getElementById('cancelBtn').style.display = 'none';
 }
 
-function escapeHtml(text) {
-    if (!text) return '';
-    return text.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function escapeCategoryHtml(text) {
+    if (text == null || text === undefined) return '';
+    return String(text)
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 window.editCategory = editCategory;

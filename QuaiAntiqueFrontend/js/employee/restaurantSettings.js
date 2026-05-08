@@ -29,7 +29,7 @@ const msg           = document.getElementById("settingsMsg");
 
 async function loadSettings() {
   try {
-    const res  = await fetchWithAuth("https://restaurantquaiantique-production.up.railway.app/api/admin/restaurant");
+    const res  = await fetchWithAuth("http://localhost:8000/api/admin/restaurant");
     const json = await toJsonOrThrow(res);
 
     maxGuestInput.value = window.escapeHtml(json.maxGuest);
@@ -77,7 +77,7 @@ async function saveSettings() {
   };
 
   try {
-    const res = await fetchWithAuth("https://restaurantquaiantique-production.up.railway.app/api/admin/restaurant", {
+    const res = await fetchWithAuth("http://localhost:8000/api/admin/restaurant", {
       method: "PUT",
       body: JSON.stringify(payload)
     });

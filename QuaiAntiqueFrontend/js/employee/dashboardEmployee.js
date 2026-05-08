@@ -21,7 +21,7 @@ async function createUser() {
     const role = document.getElementById("role").value;
 
     try {
-        const response = await fetchWithAuth("https://restaurantquaiantique-production.up.railway.app/api/admin/create-user", {
+        const response = await fetchWithAuth("http://localhost:8000/api/admin/create-user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +49,7 @@ async function createUser() {
 async function loadUsers() {
     const token = getToken();
     try {
-        const response = await fetch("https://restaurantquaiantique-production.up.railway.app/api/admin/users", {
+        const response = await fetch("http://localhost:8000/api/admin/users", {
             headers: {
                 "X-AUTH-TOKEN": token
             }
@@ -81,7 +81,7 @@ async function updateUser() {
     }
 
     try {
-        const response = await fetch(`https://restaurantquaiantique-production.up.railway.app/api/admin/users/${email}`, {
+        const response = await fetch(`http://localhost:8000/api/admin/users/${email}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -112,7 +112,7 @@ async function deleteUser() {
     if (!confirm(`Supprimer ${email} ?`)) return;
 
     try {
-        const response = await fetch(`https://restaurantquaiantique-production.up.railway.app/api/admin/users/${email}`, {
+        const response = await fetch(`http://localhost:8000/api/admin/users/${email}`, {
             method: "DELETE",
             headers: {
                 "X-AUTH-TOKEN": token

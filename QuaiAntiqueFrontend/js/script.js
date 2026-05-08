@@ -139,7 +139,7 @@ function getInfosUser(){
         redirect: 'follow'
     };
 
-    fetch("https://restaurantquaiantique-production.up.railway.app/api", requestOptions)
+    fetch("http://localhost:8000/api", requestOptions)
     .then(response =>{
         if(response.ok){
             return response.json();

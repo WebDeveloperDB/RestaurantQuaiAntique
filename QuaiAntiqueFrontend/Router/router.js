@@ -3,13 +3,22 @@ import { allRoutes, websiteName } from "./allRoutes.js";
 import { pageTemplates } from "./pageTemplates.js";
 
 const getRuntimeBasePath = () => {
-  const marker = "/QuaiAntiqueFrontend/";
-  const pathname = new URL(import.meta.url).pathname;
-  return pathname.includes(marker) ? "/QuaiAntiqueFrontend" : "";
+  try {
+    const baseEl = document.querySelector('base');
+    if (baseEl && baseEl.getAttribute('href')) {
+      const url = new URL(baseEl.href, window.location.origin);
+      // remove trailing slash
+      return url.pathname.replace(/\/$/, '');
+    }
+  } catch (e) {
+    // fallback to empty
+  }
+  return '';
 };
 
 const runtimeBasePath = getRuntimeBasePath();
 const route404 = new Route("404", "Page introuvable", "/pages/404.html", []);
+let routeScriptVersion = 0;
 
 const stripBasePath = (pathname) => {
   if (runtimeBasePath && pathname.startsWith(runtimeBasePath)) {
@@ -94,9 +103,11 @@ const LoadContentPage = async () => {
   document.getElementById("main-page").innerHTML = html;
 
   if (actualRoute.pathJS != "") {
+    // Force un nouveau chargement du script de route a chaque navigation.
+    routeScriptVersion += 1;
     const scriptTag = document.createElement("script");
-    scriptTag.setAttribute("type", "text/javascript");
-    scriptTag.setAttribute("src", runtimeBasePath + actualRoute.pathJS);
+    scriptTag.setAttribute("type", "module");
+    scriptTag.setAttribute("src", `${runtimeBasePath}${actualRoute.pathJS}?routeLoad=${routeScriptVersion}`);
     document.querySelector("body").appendChild(scriptTag);
   }
 

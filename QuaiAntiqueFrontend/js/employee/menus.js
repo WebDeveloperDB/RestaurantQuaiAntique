@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://restaurantquaiantique-production.up.railway.app/api';
+const apiBaseUrl = 'http://localhost:8000/api';
 let deleteModalInstance;
 let currentDeleteId = null;
 let allPictures = [];
@@ -228,3 +228,6 @@ function resetForm() {
     document.getElementById('submitBtn').innerHTML = '<i class="bi bi-check-circle"></i> Ajouter';
     document.getElementById('cancelBtn').style.display = 'none';
 }
+
+window.editMenu = editMenu;
+window.deleteMenu = deleteMenu;
